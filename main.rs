@@ -1,16 +1,20 @@
-use tts::Tts;
+use std::fmt::format;
+use std::io;
+use std::{thread, time};
 
-fn main() {
-    // Initialize the TTS engine
-    let mut tts = Tts::default().expect("Failed to initialize TTS engine");
 
-    // The text you want to convert to speech
-    let text = "This is my evidence for the week.";
 
-    // Speak the text
-    tts.speak(text,true).expect("Failed to speak");
+use tts::*;
+fn main() -> Result<(), Error> {
+    env_logger::init();
+    let mut tts = Tts::default()?;
+    //the text in this line should be passed from our llm
+    let mut words = "Some info from out llm modle";
+    //This line speaks the text.
+    tts.speak(format!("{}",words),false)?;
+    println!("{}", words);
+    let mut _input = String::new();
+    io::stdin().read_line(&mut _input)?;
 
-    // Optional: You can also stop speaking if you need to interrupt
-    // tts.stop().expect("Failed to stop TTS");
+    Ok(()) // Explicitly return Ok(()) to match the expected return type
 }
-
